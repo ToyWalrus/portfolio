@@ -1,52 +1,53 @@
 <template>
-	<v-app>
-		<v-app-bar app color="primary" dark>
-			<div class="d-flex align-center">
-				<v-img
-					alt="Vuetify Logo"
-					class="shrink mr-2"
-					contain
-					src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-					transition="scale-transition"
-					width="40"
-				/>
-
-				<v-img
-					alt="Vuetify Name"
-					class="shrink mt-1 hidden-sm-and-down"
-					contain
-					min-width="100"
-					src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-					width="100"
-				/>
-			</div>
-
-			<v-spacer></v-spacer>
-
-			<v-btn href="https://github.com/vuetifyjs/vuetify/releases/latest" target="_blank" text>
-				<span class="mr-2">Latest Release</span>
-				<v-icon>mdi-open-in-new</v-icon>
-			</v-btn>
+	<v-app id="app">
+		<v-app-bar dark app color="primary" elevation="0" id="app-bar">
+			<v-tabs right v-model="currentPage">
+				<v-tab v-for="pageName in pages" :key="pageName" :href="`#${pageName}`">
+					{{ pageName }}
+				</v-tab>
+			</v-tabs>
 		</v-app-bar>
 
 		<v-main>
-			<HelloWorld />
+			<v-tabs-items v-model="currentPage">
+				<v-tab-item v-for="pageName in pages" :value="pageName" :key="pageName">
+					{{ pageName }}
+				</v-tab-item>
+			</v-tabs-items>
 		</v-main>
 	</v-app>
+	<!-- <div id="app">
+		<div id="nav">
+			<router-link to="/">Home</router-link> |
+			<router-link to="/about">About</router-link>
+		</div>
+		<router-view />
+	</div> -->
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
 export default {
 	name: 'App',
-
-	components: {
-		HelloWorld,
+	components: {},
+	data: function () {
+		return {
+			currentPage: 'Home',
+			pages: ['Home', 'Projects', 'About'],
+		};
 	},
-
-	data: () => ({
-		//
-	}),
 };
 </script>
+
+<style lang="scss">
+@import '@/scss/variables.scss';
+
+#app {
+	color: $primary-text-color;
+	background-color: $primary-background-color;
+	font-family: 'Poppins', sans-serif;
+}
+
+#app-bar {
+	background-color: $primary-background-color;
+}
+</style>
