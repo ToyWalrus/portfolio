@@ -1,22 +1,42 @@
 <template>
 	<div id="app">
-		<div id="app-bar">
-			<router-link to="/">Home</router-link> |
-			<router-link to="/about">About</router-link>
+		<div id="page-links">
+			<router-link
+				v-slot="{ href, navigate, isActive }"
+				v-for="route in routes"
+				:key="route.path"
+				:to="route.path"
+				custom
+			>
+				<nav-button :isActive="isActive" :navigate="navigate" :routeName="route.name" :href="href" />
+			</router-link>
 		</div>
 		<router-view />
 	</div>
 </template>
 
 <script>
+import { routes } from '@/router';
+import NavButton from '@/components/NavButton';
+
 export default {
 	name: 'App',
-	components: {},
+	components: {
+		NavButton,
+	},
 	data: function () {
 		return {
-			currentPage: 'Home',
-			pages: ['Home', 'Projects', 'About'],
+			routes,
 		};
 	},
 };
 </script>
+
+<style scoped>
+#page-links {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	margin: 10px 20px;
+}
+</style>

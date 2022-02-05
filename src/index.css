@@ -2,7 +2,10 @@
 	--primary-background-color: #32292f;
 	--primary-text-color: #f1f7ed;
 	--secondary-background-color: #3c6e71;
+	--secondary-background-color-darker: #3c6e7152;
 	--primary-color: #20bf55;
+	--primary-color-darker: #289b4e;
+	--primary-color-lighter: #19dd5a;
 	--accent-color: #e65f5c;
 	--fulvous: #e98a15;
 }
