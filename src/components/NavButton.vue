@@ -1,14 +1,21 @@
 <template>
-	<div :class="['nav-button', { 'active-route': isActive }]" @click="navigate" :href="href">
+	<div :class="['nav-button', { 'active-route': active() }]" @click="navigate" :href="href">
 		{{ routeName }}
 	</div>
 </template>
 
 <script>
 export default {
-	props: ['isActive', 'href', 'navigate', 'routeName'],
-	data() {
-		return {};
+	props: {
+		isActive: Boolean,
+		routeName: String,
+		href: String,
+		navigate: Function,
+	},
+	methods: {
+		active() {
+			return this.$props.isActive || (window.location.pathname === '/' && this.$props.routeName === 'Home');
+		},
 	},
 };
 </script>
@@ -39,13 +46,14 @@ $transition-curve: ease-out;
 
 	transition: background-color 250ms $transition-curve, transform 600ms $transition-curve;
 }
+
 .nav-button:hover:not(.active-route),
 .nav-button:focus {
 	background-color: var(--secondary-background-color-darker);
 }
 
 .active-route {
-	transform: translateY(5px);
+	transform: translateY(2px);
 	background-color: var(--secondary-background-color);
 }
 </style>
