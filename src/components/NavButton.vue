@@ -1,5 +1,5 @@
 <template>
-	<div :class="['nav-button', { 'active-route': active() }]" @click="navigate" :href="href">
+	<div :class="['nav-button', { 'active-route': active() }]" @click="navigate">
 		{{ routeName }}
 	</div>
 </template>
@@ -9,12 +9,11 @@ export default {
 	props: {
 		isActive: Boolean,
 		routeName: String,
-		href: String,
 		navigate: Function,
 	},
 	methods: {
 		active() {
-			return this.$props.isActive || (window.location.pathname === '/' && this.$props.routeName === 'Home');
+			return this.$props.isActive || (window.location.pathname === "/" && this.$props.routeName === "Home");
 		},
 	},
 };

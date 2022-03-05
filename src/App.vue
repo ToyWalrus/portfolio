@@ -2,13 +2,13 @@
 	<div id="app">
 		<div id="page-links">
 			<router-link
-				v-slot="{ href, navigate, isActive }"
+				v-slot="{ navigate, isActive }"
 				v-for="route in routes"
 				:key="route.path"
 				:to="route.path"
 				custom
 			>
-				<nav-button :isActive="isActive" :navigate="navigate" :routeName="route.name" :href="href" />
+				<nav-button :isActive="isActive" :navigate="navigate" :routeName="route.name" />
 			</router-link>
 		</div>
 		<router-view class="main-content" />
@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import { routes } from '@/router';
-import NavButton from '@/components/NavButton';
+import { routes } from "@/router";
+import NavButton from "@/components/NavButton";
 
 export default {
-	name: 'App',
+	name: "App",
 	components: {
 		NavButton,
 	},
