@@ -2,14 +2,14 @@
 	<div id="Projects">
 		<project-row :project-first="true">
 			<project-description
-				image-asset="logo.png"
 				project-name="My first project"
 				:project-description="loremIpsum"
+				:image-assets="projects[0].images"
 			/>
 		</project-row>
 		<project-row :project-first="false">
 			<project-description
-				image-asset="logo.png"
+				:image-assets="['logo.png']"
 				project-name="My second project"
 				:project-description="loremIpsum"
 			/>
@@ -30,6 +30,16 @@ export default {
 	data() {
 		return {
 			loremIpsum: LoremIpsum,
+			projects: [
+				{
+					images: [
+						"terrain-gen/TerrainGen_1.png",
+						"terrain-gen/TerrainGen_2.png",
+						"terrain-gen/TerrainGen_3.png",
+						"terrain-gen/TerrainGen_4.png",
+					],
+				},
+			],
 		};
 	},
 };

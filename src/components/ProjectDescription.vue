@@ -1,7 +1,9 @@
 <template>
 	<div class="project-description">
 		<span class="project-name">{{ projectName }}</span>
-		<img class="project-image" :src="require('@/assets/' + imageAsset)" :alt="imageAlt" />
+		<div class="slideshow-container">
+			<slideshow :images="imageAssets" />
+		</div>
 		<div class="description-text">
 			{{ projectDescription }}
 		</div>
@@ -9,13 +11,22 @@
 </template>
 
 <script>
+import Slideshow from "@/components/Slideshow";
+
 export default {
 	name: "ProjectDescription",
+	components: {
+		Slideshow,
+	},
 	props: {
 		projectName: String,
 		projectDescription: String,
-		imageAsset: String,
-		imageAlt: [String, undefined],
+		imageAssets: {
+			type: Object,
+			default() {
+				return [];
+			},
+		},
 	},
 };
 </script>
@@ -30,14 +41,11 @@ export default {
 	padding: 8px;
 }
 
-.project-image {
-	align-self: center;
+.slideshow-container {
+	align-self: stretch;
 
 	min-height: 200px;
 	max-height: 300px;
-
-	min-width: 200px;
-	max-width: 300px;
 }
 
 .project-name {
