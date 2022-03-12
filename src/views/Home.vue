@@ -1,10 +1,7 @@
 <template>
 	<div class="home">
-		<span class="tiny-heading">Welcome</span>
-		<span class="sub-heading">to my site.</span>
-		<div class="name-area">
-			<span class="mah-name">Trevor Howell</span>
-		</div>
+<!--		<span class="tiny-heading">Welcome</span>-->
+<!--		<span class="sub-heading">to my site.</span>-->
 		<div>
 			<span>I'm a </span>
 			<vue-typed-js :strings="strings" :backSpeed="50" :loop="true" :startDelay="1000" :cursorChar="'_'">
@@ -18,7 +15,7 @@
 export default {
 	data() {
 		return {
-			strings: ['Programmer', 'Musician', 'Human', 'Gamer'],
+			strings: ["Programmer", "Musician", "Human"],
 		};
 	},
 };
