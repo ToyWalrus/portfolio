@@ -1,26 +1,20 @@
 <template>
 	<div id="Projects">
-		<project-row :project-first="true">
-			<project-description
-				project-name="My first project"
-				:project-description="loremIpsum"
-				:image-assets="projects[0].images"
-			/>
-		</project-row>
-		<project-row :project-first="false">
-			<project-description
-				:image-assets="['logo.png']"
-				project-name="My second project"
-				:project-description="loremIpsum"
-			/>
+		<project-row
+			v-for="(proj, i) in projects"
+			:project-title="proj.title"
+			:project-title-first="i % 2 === 0"
+			:key="proj.title"
+		>
+			<project-description :image-assets="proj.images" :project-description="proj.description" />
 		</project-row>
 	</div>
 </template>
 
 <script>
 import ProjectDescription from "@/components/ProjectDescription";
-import LoremIpsum from "@/util/LoremIpsum";
 import ProjectRow from "@/components/ProjectRow";
+import loremIpsum from "@/util/LoremIpsum";
 
 export default {
 	components: {
@@ -29,9 +23,10 @@ export default {
 	},
 	data() {
 		return {
-			loremIpsum: LoremIpsum,
 			projects: [
 				{
+					title: "Procedural Terrain Generator",
+					description: loremIpsum,
 					images: [
 						"terrain-gen/TerrainGen_1.png",
 						"terrain-gen/TerrainGen_2.png",

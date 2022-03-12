@@ -1,7 +1,21 @@
 <template>
 	<div class="image-transition">
-		<img :class="image1Class" :src="require('@/assets/' + image1)" alt="image 1" :style="imageStyle" />
-		<img :class="image2Class" :src="require('@/assets/' + image2)" alt="image 2" :style="imageStyle" />
+		<img
+			v-if="image1"
+			:class="image1Class"
+			:style="imageStyle"
+			:src="require('@/assets/' + image1)"
+			alt="image 1"
+			ref="img1Ref"
+		/>
+		<img
+			v-if="image2"
+			:class="image2Class"
+			:style="imageStyle"
+			:src="require('@/assets/' + image2)"
+			alt="image 2"
+			ref="img2Ref"
+		/>
 	</div>
 </template>
 
@@ -9,8 +23,9 @@
 export default {
 	props: {
 		images: {
-			type: [String],
+			type: Array,
 			required: true,
+			validator: prop => prop.every(p => typeof p === "string"),
 		},
 		duration: {
 			type: Number,
@@ -20,14 +35,29 @@ export default {
 			type: Number,
 			default: 500,
 		},
+		stagger: {
+			type: Number,
+			default: 0,
+		},
 	},
-	computed: {
-		image1Class() {
-			return "img-1" + (this.image1Visible ? " visible" : "");
-		},
-		image2Class() {
-			return "img-2" + (this.image1Visible ? "" : " visible");
-		},
+	created() {
+		this.setImageDimensions.bind(this);
+	},
+	mounted() {
+		window.addEventListener("resize", this.setImageDimensions);
+		this.setImageDimensions();
+
+		if (this.$props.stagger > 0) {
+			setTimeout(() => this.swapImages(), this.$props.stagger);
+		} else {
+			this.swapImages();
+		}
+	},
+	destroyed() {
+		window.removeEventListener("resize", this.setImageDimensions);
+	},
+	beforeUpdate() {
+		this.setImageDimensions();
 	},
 	data() {
 		const images = this.$props.images;
@@ -52,10 +82,32 @@ export default {
 			swapImageTimeout: undefined,
 		};
 	},
-	mounted() {
-		this.swapImages();
+	computed: {
+		image1Class() {
+			return "img-1" + (this.image1Visible ? " visible" : "");
+		},
+		image2Class() {
+			return "img-2" + (this.image1Visible ? "" : " visible");
+		},
 	},
 	methods: {
+		setImageDimensions() {
+			if (this.$el && typeof this.$el.getBoundingClientRect === "function") {
+				const { img1Ref, img2Ref } = this.$refs;
+				const rect = this.$el?.getBoundingClientRect();
+				const width = rect.width + "px";
+				const height = rect.height + "px";
+
+				if (img1Ref) {
+					img1Ref.style.width = width;
+					img1Ref.style.height = height;
+				}
+				if (img2Ref) {
+					img2Ref.style.width = width;
+					img2Ref.style.height = height;
+				}
+			}
+		},
 		swapImages() {
 			this.image1Visible = !this.image1Visible;
 			this.changeImages();
@@ -101,14 +153,8 @@ export default {
 
 .img-1,
 .img-2 {
-	position: absolute;
-	/* left: 0;
-	top: 0; */
 	opacity: 0;
-
-	/* width: 100%; */
-	/* height: 100%; */
-	/* max-height: 100%; */
+	position: absolute;
 	object-fit: contain;
 }
 
